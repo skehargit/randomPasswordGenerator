@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="setting-png.png">
+    <!-- ==========google icon======== -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomPasswordGenerator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #000000;
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dosis', sans-serif;
+            letter-spacing: 2px;
+            background-image: url("circuit-board-1.jpg");
+            background-size: cover;
+            background-position: center;
+            
+        }
+        .container{
+            width: 80%; 
+            max-width: 600px;
+            border-radius: 5px;
+            border: 3px solid rgb(114,255,254);
+            box-shadow:0 0 10px 0 rgb(0, 0, 0);
+            background-color: #00000080;
+            padding: 30px;
+        }
+        .display{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: white;
+            box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.475);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 20px;
+            border-radius: 5px;
+        }
+        .display input{
+            font-family: 'Dosis', sans-serif;
+            letter-spacing: 2px;
+            width: 300px;
+            border: none;
+            height: 50px;
+            font-size: 20px;
+        }
+        input[type=text] {
+            background-color: transparent;
+            color: black ;
+            font-weight: bold;
+            font-family: 'Dosis', sans-serif;
+        }
+        input[type="range"]{
+            -webkit-appearance:none;
+            width:160px;
+            height:7px;
+            margin:10px 20px;
+            border-radius: 5px;
+            box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.475);
+            background: rgb(114,255,254);
+        }
+
+        input[type="range"]::-webkit-slider-thumb{
+            -webkit-appearance:none;
+            width:20px;
+            height:20px;
+            border-radius: 5px;
+            background:rgb(50, 239, 239);
+            position:relative;
+            box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.651);
+        }
+        .container h1 span{
+            color: rgb(114,255,254);
+            border-bottom: 4px solid rgb(114,255,254);
+        }
+        .container button{
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            border: 2px solid rgb(114,255,254);
+            background: transparent;
+            color: white;
+            box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.475);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            letter-spacing: 2px;
+            font-size: 17px;
+            font-family: 'Dosis', sans-serif;
+        }
+        .container button span{
+            padding-right: 5px;
+        }
+        .rangeBar{
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .rangeBar .ValueSpan{
+            border: 3px solid rgb(114,255,254);
+            border-top: none;
+            border-left: none;
+            color: white;
+            height: 20px;
+            width: 20px;
+            font-weight: bold;
+            box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.475);
+            border-radius: 100%;
+            padding: 10px ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Generate a<br>
+            <span> Random Password</span>
+        </h1>
+        <div class="rangeBar">
+            <h3>Password Length :</h3>
+            <input id="passwordLength" type="range" min="4" max="20" step="1" />
+           <span class="ValueSpan"><output id="value"></output></span>
+        </div>
+        <div class="display">
+            <input type="text" id="password" placeholder="Password">
+            <span class="material-symbols-outlined" onclick="copyPassword()">content_copy</span>
+        </div>
+        
+        <button onclick="creatPassword()">
+            <span class="material-symbols-outlined">bolt</span>
+            Generate Password
+        </button>
+    </div>
+
+    <script>
+        const passwordBox=document.querySelector("#password");
+        const valueOutput = document.querySelector("#value");
+        const passwordLength = document.querySelector("#passwordLength");
+        var length=12;
+        valueOutput.textContent = passwordLength.value;
+        passwordLength.addEventListener("input", (event) => {
+        valueOutput.textContent = event.target.value ;
+        length = event.target.value ;
+        }) ;
+        const upperCase = "QWERTYUIOPASDFGHJKLZXCVBNM";
+        const lowerCase="qwertyuiopasdfghjklzxcvbnm";
+        const numbers="102938756";
+        const symbols="~!@#$%^&*_-+=|<:>.?/";
+        const allChars=lowerCase+upperCase+numbers+symbols;
+        function creatPassword(){
+            let n=length-4;
+            let password="";
+            while(n>password.length){
+               password+=allChars[Math.floor(Math.random()*allChars.length)];
+            }
+            password+=upperCase[Math.floor(Math.random()*upperCase.length)];
+            password+=lowerCase[Math.floor(Math.random()*lowerCase.length)];
+            password+=numbers[Math.floor(Math.random()*numbers.length)];
+            password+=symbols[Math.floor(Math.random()*symbols.length)];
+
+            passwordBox.value=password;
+        }
+        function copyPassword(){
+            passwordBox.select();
+            document.execCommand("copy");
+        }
+    </script>
+</body>
+</html>
